@@ -1,2 +1,3 @@
-# zh-microservices-springdocker-svc
-Spring Boot REST API for the Zurich Microservices Meetup
+# todo-svc
+
+This is a very simple Todo REST API for demonstration purposes.
