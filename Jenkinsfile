@@ -64,6 +64,26 @@ pipeline {
 				}
 			}
 		}
+		
+		stage('Staging') {
+			steps {
+				echo 'Publishing to staging environment'
+				sh 'docker stop todo-svc-staging || true'  // Stop current container, ignore if fails
+				sh 'docker rm todo-svc-staging || true'  // remove current container, ignore if fails
+				sh "docker run -d --name todo-svc-staging -p 8180:8080 todo-svc:${env.BUILD_NUMBER}"
+			}
+		
+		}
+		
+		stage('Production') {
+			steps {
+				echo 'Publishing to production environment'				
+
+				sh 'docker stop todo-svc-prod || true'  // Stop current container, ignore if fails
+				sh 'docker rm todo-svc-prod || true'  // remove current container, ignore if fails
+				sh "docker run -d --name todo-svc-prod -p 8190:8080 todo-svc:${env.BUILD_NUMBER}"
+		    }
+		}
 	}
 
 	post {
