@@ -75,6 +75,14 @@ pipeline {
 		
 		}
 		
+		stage('Approve PROD deployment') {
+			steps {
+				timeout(time:5, unit:'HOURS') {
+					input 'Promote to production?'
+				}
+			}
+		}
+
 		stage('Production') {
 			steps {
 				echo 'Publishing to production environment'				
