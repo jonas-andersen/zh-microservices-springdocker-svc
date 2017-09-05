@@ -45,6 +45,16 @@ pipeline {
 				}
 			}
 		}
+
+		stage('Build Image') {
+			steps {
+				echo 'Creating docker image'
+
+				script {
+					def newApp = docker.build "todo-svc:${env.BUILD_NUMBER}"
+				}
+			} 
+		}
 	}
 
 	post {
