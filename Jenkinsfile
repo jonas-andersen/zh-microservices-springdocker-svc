@@ -103,6 +103,9 @@ pipeline {
 	post {
 		// Always runs. And it runs before any of the other post conditions.
 		always {
+			// Remove old obsolete Docker images (filtered on a label in the Dockerfile)
+			sh 'docker image prune -a -f  --filter "label=com.aragost.service=todo-svc"'
+
 			// Clear the workspace
 			deleteDir()
 		}

@@ -8,4 +8,6 @@ RUN addgroup todousr
 RUN adduser -D -G todousr todousr
 USER todousr
 
+LABEL "com.aragost.service"="todo-svc"
+
 ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /todo-svc.jar" ]
