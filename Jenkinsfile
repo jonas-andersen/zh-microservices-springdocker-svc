@@ -54,6 +54,15 @@ pipeline {
 					def newApp = docker.build "todo-svc:${env.BUILD_NUMBER}"
 				}
 			} 
+			post {
+				success {
+					withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'gogs-gituser', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+						sh("git tag -a build-${env.BUILD_NUMBER} -m 'Jenkins build success'")
+						// Beware that this has the full credentials in the url, which is part of the command line (shows up in "ps")
+						sh("git push http://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@${DOCKER_GATEWAY_IP}:3000/gituser/todo-svc.git --tags")
+					}
+				}
+			}
 		}
 	}
 
