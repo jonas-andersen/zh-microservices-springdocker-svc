@@ -36,4 +36,21 @@ public class ToDoController {
 		}
 	}
 
+	@PostMapping
+	public ToDo save(@RequestBody final ToDo newTodo) {
+		int maxId = 1;
+		synchronized (todos) {
+			for (ToDo t : todos) {
+				if (t.getId() > maxId) {
+					maxId = t.getId();
+				}
+			}
+
+			ToDo savedTodo = new ToDo(maxId + 1, newTodo.getTitle(), newTodo.getDescription());
+			todos.add(savedTodo);
+
+			return savedTodo;
+		}
+	}
+
 }
