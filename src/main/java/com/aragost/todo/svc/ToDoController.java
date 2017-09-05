@@ -53,4 +53,19 @@ public class ToDoController {
 		}
 	}
 
+	@PutMapping("/{id}")
+	public ToDo update(@RequestBody final ToDo updatedTodo) {
+		synchronized (todos) {
+			for (ToDo t : todos) {
+				if (t.getId() == updatedTodo.getId()) {
+					t.setTitle(updatedTodo.getTitle());
+					t.setDescription(updatedTodo.getDescription());
+					t.setCompleted(updatedTodo.isCompleted());
+				}
+			}
+	
+			return updatedTodo;
+		}
+	}
+
 }
